@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2012, 2021, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2021, 2025, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * This code is free software; you can redistribute it and/or modify it
@@ -23,29 +23,23 @@
  * questions.
  */
 
-#import <OpenGL/gl.h>
-#import <OpenGL/OpenGL.h>
+package com.sun.prism.mtl;
 
-#import "GlassOffscreen.h"
+import com.sun.prism.impl.DisposerManagedResource;
 
-@interface GlassLayer3D : CAOpenGLLayer
-{
-    GlassOffscreen *_glassOffscreen;
-    GlassOffscreen *_painterOffscreen;
+class MTLTextureResource<T extends MTLTextureData> extends DisposerManagedResource<T> {
 
-    BOOL isHiDPIAware;
+    private final boolean canDispose;
+
+    MTLTextureResource(T resource, boolean canDispose) {
+        super(resource, MTLVramPool.getInstance(), resource);
+        this.canDispose = canDispose;
+    }
+
+    @Override
+    public void free() {
+        if (resource != null && canDispose) {
+            resource.dispose();
+        }
+    }
 }
-
-- (id)initWithSharedContext:(CGLContextObj)ctx
-           andClientContext:(CGLContextObj)clCtx
-             withHiDPIAware:(BOOL)HiDPIAware
-             withIsSwPipe:(BOOL)isSwPipe;
-
-- (GlassOffscreen*)getPainterOffscreen;
-- (GlassOffscreen*)getGlassOffscreen;
-- (void)hostOffscreen:(GlassOffscreen*)offscreen;
-- (void)flush;
-
-- (void)notifyScaleFactorChanged:(CGFloat)scale;
-
-@end
