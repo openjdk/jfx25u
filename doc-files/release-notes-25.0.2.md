@@ -40,4 +40,6 @@ Issue key | Summary | Subcomponent
 
 Issue key | Summary | Subcomponent
 --------- | ------- | ------------
-JDK-nnnnnnn (not public) | TITLE | SUBCOMPONENT
+JDK-8361719 (not public) | Enhance Handling of URIs | application-lifecycle
+JDK-8362535 (not public) | Update libxslt support | web
+JDK-8368704 (not public) | Better glyph handling | web
