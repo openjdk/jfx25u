@@ -1520,6 +1520,22 @@ JNIEXPORT void JNICALL Java_com_sun_prism_mtl_MTLGraphics_nClear
            clearDepth:clearDepth];
 }
 
+/*
+ * Class:     com_sun_prism_mtl_MTLResourceFactory
+ * Method:    nGetMaximumTextureSize
+ * Signature: (J)I
+ */
+JNIEXPORT jint JNICALL Java_com_sun_prism_mtl_MTLResourceFactory_nGetMaximumTextureSize
+    (JNIEnv *env, jclass class, jlong pContext)
+{
+    MetalContext* context = (MetalContext*)jlong_to_ptr(pContext);
+    id<MTLDevice> device = [context getDevice];
+
+    if ([device supportsFamily:MTLGPUFamilyMac2]) {
+        return 16384;
+    }
+    return 8192;
+}
 
 // MTLResourceFactory methods
 
